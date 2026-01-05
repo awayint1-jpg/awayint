@@ -10,9 +10,7 @@
     </parent>
 
     <artifactId>smart-manage</artifactId>
-    <description>
-        自定义模块
-    </description>
+    <description>自定义模块</description>
 
     <dependencies>
         <!-- 通用工具-->
@@ -23,8 +21,18 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>5.8.21</version>
+            <version>5.8.26</version>
+        </dependency>
+        <!-- 新增：参数校验依赖（可选，若需要注解校验则加） -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version> 8.0.3.Final</version>
         </dependency>
     </dependencies>
-
 </project>
