@@ -10,89 +10,82 @@ import com.smart.system.domain.ActiveRegistration;
 import com.smart.system.service.IActiveRegistrationService;
 
 /**
- * 活动报名与打卡记录Service业务层处理
- * 
+ * 活动报名与打卡记录服务实现
+ *
  * @author smart
  * @date 2026-01-07
  */
 @Service
-public class ActiveRegistrationServiceImpl implements IActiveRegistrationService 
-{
+public class ActiveRegistrationServiceImpl implements IActiveRegistrationService {
+
     @Autowired
-    private ActiveRegistrationMapper activeRegistrationMapper;
+    private ActiveRegistrationMapper mapper;
 
     /**
-     * 查询活动报名与打卡记录
-     * 
-     * @param regId 活动报名与打卡记录主键
-     * @return 活动报名与打卡记录
+     * 批量删除报名记录
+     *
+     * @param regIds 需删除的记录主键数组
+     * @return 删除操作影响的行数
      */
     @Override
-    public ActiveRegistration selectActiveRegistrationByRegId(Long regId)
-    {
-        return activeRegistrationMapper.selectActiveRegistrationByRegId(regId);
+    public int deleteActiveRegistrationByRegIds(Long[] regIds) {
+        return mapper.deleteActiveRegistrationByRegIds(regIds);
     }
 
     /**
-     * 查询活动报名与打卡记录列表
-     * 
-     * @param activeRegistration 活动报名与打卡记录
-     * @return 活动报名与打卡记录
+     * 删除单条报名记录
+     *
+     * @param regId 记录主键ID
+     * @return 删除操作影响的行数
      */
     @Override
-    public List<ActiveRegistration> selectActiveRegistrationList(ActiveRegistration activeRegistration)
-    {
-        return activeRegistrationMapper.selectActiveRegistrationList(activeRegistration);
+    public int deleteActiveRegistrationByRegId(Long regId) {
+        return mapper.deleteActiveRegistrationByRegId(regId);
     }
 
     /**
-     * 新增活动报名与打卡记录
-     * 
-     * @param activeRegistration 活动报名与打卡记录
-     * @return 结果
+     * 新增报名记录
+     *
+     * @param registration 报名记录实体
+     * @return 插入操作影响的行数
      */
     @Override
-    public int insertActiveRegistration(ActiveRegistration activeRegistration)
-    {
-        activeRegistration.setCreateTime(DateUtils.getNowDate());
-        activeRegistration.setUserId(SecurityUtils.getUserId());
-
-        return activeRegistrationMapper.insertActiveRegistration(activeRegistration);
+    public int insertActiveRegistration(ActiveRegistration registration) {
+        registration.setCreateTime(DateUtils.getNowDate());
+        registration.setUserId(SecurityUtils.getUserId());
+        return mapper.insertActiveRegistration(registration);
     }
 
     /**
-     * 修改活动报名与打卡记录
-     * 
-     * @param activeRegistration 活动报名与打卡记录
-     * @return 结果
+     * 更新报名记录信息
+     *
+     * @param registration 报名记录实体
+     * @return 更新操作影响的行数
      */
     @Override
-    public int updateActiveRegistration(ActiveRegistration activeRegistration)
-    {
-        return activeRegistrationMapper.updateActiveRegistration(activeRegistration);
+    public int updateActiveRegistration(ActiveRegistration registration) {
+        return mapper.updateActiveRegistration(registration);
     }
 
     /**
-     * 批量删除活动报名与打卡记录
-     * 
-     * @param regIds 需要删除的活动报名与打卡记录主键
-     * @return 结果
+     * 根据记录ID查询详细信息
+     *
+     * @param regId 记录主键ID
+     * @return 报名记录实体
      */
     @Override
-    public int deleteActiveRegistrationByRegIds(Long[] regIds)
-    {
-        return activeRegistrationMapper.deleteActiveRegistrationByRegIds(regIds);
+    public ActiveRegistration selectActiveRegistrationByRegId(Long regId) {
+        return mapper.selectActiveRegistrationByRegId(regId);
     }
 
     /**
-     * 删除活动报名与打卡记录信息
-     * 
-     * @param regId 活动报名与打卡记录主键
-     * @return 结果
+     * 条件查询报名记录列表
+     *
+     * @param registration 查询条件实体
+     * @return 报名记录集合
      */
     @Override
-    public int deleteActiveRegistrationByRegId(Long regId)
-    {
-        return activeRegistrationMapper.deleteActiveRegistrationByRegId(regId);
+    public List<ActiveRegistration> selectActiveRegistrationList(ActiveRegistration registration) {
+        return mapper.selectActiveRegistrationList(registration);
     }
 }

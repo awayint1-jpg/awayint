@@ -8,86 +8,80 @@ import com.smart.system.domain.ActiveAuditLog;
 import com.smart.system.service.IActiveAuditLogService;
 
 /**
- * 活动审批流水记录Service业务层处理
- * 
+ * 活动审批日志业务处理服务实现
+ *
  * @author smart
  * @date 2026-01-07
  */
 @Service
-public class ActiveAuditLogServiceImpl implements IActiveAuditLogService 
-{
+public class ActiveAuditLogServiceImpl implements IActiveAuditLogService {
+
     @Autowired
-    private ActiveAuditLogMapper activeAuditLogMapper;
+    private ActiveAuditLogMapper logMapper;
 
     /**
-     * 查询活动审批流水记录
-     * 
-     * @param logId 活动审批流水记录主键
-     * @return 活动审批流水记录
+     * 批量删除审批日志记录
+     *
+     * @param logIds 需要删除的日志主键数组
+     * @return 删除操作影响的行数
      */
     @Override
-    public ActiveAuditLog selectActiveAuditLogByLogId(Long logId)
-    {
-        return activeAuditLogMapper.selectActiveAuditLogByLogId(logId);
+    public int deleteActiveAuditLogByLogIds(Long[] logIds) {
+        return logMapper.deleteActiveAuditLogByLogIds(logIds);
     }
 
     /**
-     * 查询活动审批流水记录列表
-     * 
-     * @param activeAuditLog 活动审批流水记录
-     * @return 活动审批流水记录
+     * 删除单条审批日志记录
+     *
+     * @param logId 日志主键ID
+     * @return 删除操作影响的行数
      */
     @Override
-    public List<ActiveAuditLog> selectActiveAuditLogList(ActiveAuditLog activeAuditLog)
-    {
-        return activeAuditLogMapper.selectActiveAuditLogList(activeAuditLog);
+    public int deleteActiveAuditLogByLogId(Long logId) {
+        return logMapper.deleteActiveAuditLogByLogId(logId);
     }
 
     /**
-     * 新增活动审批流水记录
-     * 
-     * @param activeAuditLog 活动审批流水记录
-     * @return 结果
+     * 新增审批日志记录
+     *
+     * @param log 审批日志实体
+     * @return 插入操作影响的行数
      */
     @Override
-    public int insertActiveAuditLog(ActiveAuditLog activeAuditLog)
-    {
-        return activeAuditLogMapper.insertActiveAuditLog(activeAuditLog);
+    public int insertActiveAuditLog(ActiveAuditLog log) {
+        return logMapper.insertActiveAuditLog(log);
     }
 
     /**
-     * 修改活动审批流水记录
-     * 
-     * @param activeAuditLog 活动审批流水记录
-     * @return 结果
+     * 更新审批日志信息
+     *
+     * @param log 审批日志实体
+     * @return 更新操作影响的行数
      */
     @Override
-    public int updateActiveAuditLog(ActiveAuditLog activeAuditLog)
-    {
-        return activeAuditLogMapper.updateActiveAuditLog(activeAuditLog);
+    public int updateActiveAuditLog(ActiveAuditLog log) {
+        return logMapper.updateActiveAuditLog(log);
     }
 
     /**
-     * 批量删除活动审批流水记录
-     * 
-     * @param logIds 需要删除的活动审批流水记录主键
-     * @return 结果
+     * 根据日志ID查询详细信息
+     *
+     * @param logId 日志主键ID
+     * @return 审批日志实体
      */
     @Override
-    public int deleteActiveAuditLogByLogIds(Long[] logIds)
-    {
-        return activeAuditLogMapper.deleteActiveAuditLogByLogIds(logIds);
+    public ActiveAuditLog selectActiveAuditLogByLogId(Long logId) {
+        return logMapper.selectActiveAuditLogByLogId(logId);
     }
 
     /**
-     * 删除活动审批流水记录信息
-     * 
-     * @param logId 活动审批流水记录主键
-     * @return 结果
+     * 条件查询审批日志列表
+     *
+     * @param log 查询条件实体
+     * @return 审批日志集合
      */
     @Override
-    public int deleteActiveAuditLogByLogId(Long logId)
-    {
-        return activeAuditLogMapper.deleteActiveAuditLogByLogId(logId);
+    public List<ActiveAuditLog> selectActiveAuditLogList(ActiveAuditLog log) {
+        return logMapper.selectActiveAuditLogList(log);
     }
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.system.mapper.ActiveAuditLogMapper">
+    
+    <resultMap type="ActiveAuditLog" id="ActiveAuditLogResult">
+        <result property="logId"    column="log_id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="operName"    column="oper_name"    />
+        <result property="operType"    column="oper_type"    />
+        <result property="operContent"    column="oper_content"    />
+        <result property="auditRemark"    column="audit_remark"    />
+        <result property="operTime"    column="oper_time"    />
+    </resultMap>
+
+    <sql id="selectActiveAuditLogVo">
+        select log_id, activity_id, oper_name, oper_type, oper_content, audit_remark, oper_time from active_audit_log
+    </sql>
+
+    <select id="selectActiveAuditLogList" parameterType="ActiveAuditLog" resultMap="ActiveAuditLogResult">
+        <include refid="selectActiveAuditLogVo"/>
+        <where>  
+            <if test="activityId != null "> and activity_id = #{activityId}</if>
+            <if test="operName != null  and operName != ''"> and oper_name like concat('%', #{operName}, '%')</if>
+            <if test="operType != null  and operType != ''"> and oper_type = #{operType}</if>
+            <if test="operContent != null  and operContent != ''"> and oper_content = #{operContent}</if>
+            <if test="auditRemark != null  and auditRemark != ''"> and audit_remark = #{auditRemark}</if>
+            <if test="operTime != null "> and oper_time = #{operTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectActiveAuditLogByLogId" parameterType="Long" resultMap="ActiveAuditLogResult">
+        <include refid="selectActiveAuditLogVo"/>
+        where log_id = #{logId}
+    </select>
+
+    <insert id="insertActiveAuditLog" parameterType="ActiveAuditLog" useGeneratedKeys="true" keyProperty="logId">
+        insert into active_audit_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">activity_id,</if>
+            <if test="operName != null">oper_name,</if>
+            <if test="operType != null and operType != ''">oper_type,</if>
+            <if test="operContent != null">oper_content,</if>
+            <if test="auditRemark != null">audit_remark,</if>
+            <if test="operTime != null">oper_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">#{activityId},</if>
+            <if test="operName != null">#{operName},</if>
+            <if test="operType != null and operType != ''">#{operType},</if>
+            <if test="operContent != null">#{operContent},</if>
+            <if test="auditRemark != null">#{auditRemark},</if>
+            <if test="operTime != null">#{operTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateActiveAuditLog" parameterType="ActiveAuditLog">
+        update active_audit_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="operName != null">oper_name = #{operName},</if>
+            <if test="operType != null and operType != ''">oper_type = #{operType},</if>
+            <if test="operContent != null">oper_content = #{operContent},</if>
+            <if test="auditRemark != null">audit_remark = #{auditRemark},</if>
+            <if test="operTime != null">oper_time = #{operTime},</if>
+        </trim>
+        where log_id = #{logId}
+    </update>
+
+    <delete id="deleteActiveAuditLogByLogId" parameterType="Long">
+        delete from active_audit_log where log_id = #{logId}
+    </delete>
+
+    <delete id="deleteActiveAuditLogByLogIds" parameterType="String">
+        delete from active_audit_log where log_id in 
+        <foreach item="logId" collection="array" open="(" separator="," close=")">
+            #{logId}
+        </foreach>
+    </delete>
+</mapper>

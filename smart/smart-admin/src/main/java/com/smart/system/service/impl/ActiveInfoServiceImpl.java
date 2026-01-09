@@ -10,89 +10,83 @@ import com.smart.system.domain.ActiveInfo;
 import com.smart.system.service.IActiveInfoService;
 
 /**
- * 社区活动信息Service业务层处理
- * 
+ * 社区活动信息业务处理服务实现
+ *
  * @author smart
  * @date 2026-01-07
  */
 @Service
-public class ActiveInfoServiceImpl implements IActiveInfoService 
-{
+public class ActiveInfoServiceImpl implements IActiveInfoService {
+
     @Autowired
-    private ActiveInfoMapper activeInfoMapper;
+    private ActiveInfoMapper mapper;
 
     /**
-     * 查询社区活动信息
-     * 
-     * @param activityId 社区活动信息主键
-     * @return 社区活动信息
+     * 批量删除活动信息记录
+     *
+     * @param activityIds 需要删除的活动主键数组
+     * @return 删除操作影响的行数
      */
     @Override
-    public ActiveInfo selectActiveInfoByActivityId(Long activityId)
-    {
-        return activeInfoMapper.selectActiveInfoByActivityId(activityId);
+    public int deleteActiveInfoByActivityIds(Long[] activityIds) {
+        return mapper.deleteActiveInfoByActivityIds(activityIds);
     }
 
     /**
-     * 查询社区活动信息列表
-     * 
-     * @param ActiveInfo 社区活动信息
-     * @return 社区活动信息
+     * 删除单条活动信息记录
+     *
+     * @param activityId 活动主键ID
+     * @return 删除操作影响的行数
      */
     @Override
-    public List<ActiveInfo> selectActiveInfoList(ActiveInfo ActiveInfo)
-    {
-        return activeInfoMapper.selectActiveInfoList(ActiveInfo);
+    public int deleteActiveInfoByActivityId(Long activityId) {
+        return mapper.deleteActiveInfoByActivityId(activityId);
     }
 
     /**
-     * 新增社区活动信息
-     * 
-     * @param ActiveInfo 社区活动信息
-     * @return 结果
+     * 新增活动信息记录
+     *
+     * @param info 活动信息实体
+     * @return 插入操作影响的行数
      */
     @Override
-    public int insertActiveInfo(ActiveInfo ActiveInfo)
-    {
-        ActiveInfo.setCreateTime(DateUtils.getNowDate());
-        ActiveInfo.setCreateBy(SecurityUtils.getUserId().toString());
-        return activeInfoMapper.insertActiveInfo(ActiveInfo);
+    public int insertActiveInfo(ActiveInfo info) {
+        info.setCreateTime(DateUtils.getNowDate());
+        info.setCreateBy(SecurityUtils.getUserId().toString());
+        return mapper.insertActiveInfo(info);
     }
 
     /**
-     * 修改社区活动信息
-     * 
-     * @param ActiveInfo 社区活动信息
-     * @return 结果
+     * 更新活动信息
+     *
+     * @param info 活动信息实体
+     * @return 更新操作影响的行数
      */
     @Override
-    public int updateActiveInfo(ActiveInfo ActiveInfo)
-    {
-        ActiveInfo.setUpdateTime(DateUtils.getNowDate());
-        return activeInfoMapper.updateActiveInfo(ActiveInfo);
+    public int updateActiveInfo(ActiveInfo info) {
+        info.setUpdateTime(DateUtils.getNowDate());
+        return mapper.updateActiveInfo(info);
     }
 
     /**
-     * 批量删除社区活动信息
-     * 
-     * @param activityIds 需要删除的社区活动信息主键
-     * @return 结果
+     * 根据活动ID查询详细信息
+     *
+     * @param activityId 活动主键ID
+     * @return 活动信息实体
      */
     @Override
-    public int deleteActiveInfoByActivityIds(Long[] activityIds)
-    {
-        return activeInfoMapper.deleteActiveInfoByActivityIds(activityIds);
+    public ActiveInfo selectActiveInfoByActivityId(Long activityId) {
+        return mapper.selectActiveInfoByActivityId(activityId);
     }
 
     /**
-     * 删除社区活动信息信息
-     * 
-     * @param activityId 社区活动信息主键
-     * @return 结果
+     * 条件查询活动信息列表
+     *
+     * @param info 查询条件实体
+     * @return 活动信息集合
      */
     @Override
-    public int deleteActiveInfoByActivityId(Long activityId)
-    {
-        return activeInfoMapper.deleteActiveInfoByActivityId(activityId);
+    public List<ActiveInfo> selectActiveInfoList(ActiveInfo info) {
+        return mapper.selectActiveInfoList(info);
     }
 }

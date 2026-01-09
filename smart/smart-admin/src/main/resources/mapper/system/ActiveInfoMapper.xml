@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.system.mapper.ActiveInfoMapper">
+    
+    <resultMap type="ActiveInfo" id="ActiveInfoResult">
+        <result property="activityId"    column="activity_id"    />
+        <result property="title"    column="title"    />
+        <result property="activityType"    column="activity_type"    />
+        <result property="address"    column="address"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="maxPeople"    column="max_people"    />
+        <result property="description"    column="description"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectActiveInfoVo">
+        select activity_id, title, activity_type, address, start_time, end_time, max_people, description, status, del_flag, create_by, create_time, update_by, update_time, remark from active_info
+    </sql>
+
+    <select id="selectActiveInfoList" parameterType="ActiveInfo" resultMap="ActiveInfoResult">
+        <include refid="selectActiveInfoVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="activityType != null  and activityType != ''"> and activity_type = #{activityType}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="maxPeople != null "> and max_people = #{maxPeople}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="statusArray != null and statusArray.length > 0">
+                and status in
+                <foreach item="item" collection="statusArray" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectActiveInfoByActivityId" parameterType="Long" resultMap="ActiveInfoResult">
+        <include refid="selectActiveInfoVo"/>
+        where activity_id = #{activityId}
+    </select>
+
+    <insert id="insertActiveInfo" parameterType="ActiveInfo" useGeneratedKeys="true" keyProperty="activityId">
+        insert into active_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">title,</if>
+            <if test="activityType != null and activityType != ''">activity_type,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="maxPeople != null">max_people,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="activityType != null and activityType != ''">#{activityType},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="maxPeople != null">#{maxPeople},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateActiveInfo" parameterType="ActiveInfo">
+        update active_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="activityType != null and activityType != ''">activity_type = #{activityType},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="maxPeople != null">max_people = #{maxPeople},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where activity_id = #{activityId}
+    </update>
+
+    <delete id="deleteActiveInfoByActivityId" parameterType="Long">
+        delete from active_info where activity_id = #{activityId}
+    </delete>
+
+    <delete id="deleteActiveInfoByActivityIds" parameterType="String">
+        delete from active_info where activity_id in 
+        <foreach item="activityId" collection="array" open="(" separator="," close=")">
+            #{activityId}
+        </foreach>
+    </delete>
+</mapper>
