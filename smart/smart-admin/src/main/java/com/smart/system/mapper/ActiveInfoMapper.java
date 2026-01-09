@@ -1,0 +1,61 @@
+package com.smart.system.mapper;
+
+import java.util.List;
+import com.smart.system.domain.ActiveInfo;
+
+/**
+ * 社区活动信息数据访问层接口
+ *
+ * @author smart
+ * @date 2026-01-07
+ */
+public interface ActiveInfoMapper {
+
+    /**
+     * 新增活动信息记录
+     *
+     * @param info 活动信息实体
+     * @return 插入操作影响的行数
+     */
+    public int insertActiveInfo(ActiveInfo info);
+
+    /**
+     * 更新活动信息
+     *
+     * @param info 活动信息实体（包含更新数据）
+     * @return 更新操作影响的行数
+     */
+    public int updateActiveInfo(ActiveInfo info);
+
+    /**
+     * 根据活动ID删除单条记录
+     *
+     * @param id 活动主键ID
+     * @return 删除操作影响的行数
+     */
+    public int deleteActiveInfoByActivityId(Long id);
+
+    /**
+     * 批量删除活动信息记录
+     *
+     * @param ids 需要删除的活动ID数组
+     * @return 删除操作影响的行数
+     */
+    public int deleteActiveInfoByActivityIds(Long[] ids);
+
+    /**
+     * 根据活动ID查询详细信息
+     *
+     * @param id 活动主键ID
+     * @return 活动信息实体
+     */
+    public ActiveInfo selectActiveInfoByActivityId(Long id);
+
+    /**
+     * 条件查询活动信息列表
+     *
+     * @param info 查询条件实体
+     * @return 活动信息集合
+     */
+    public List<ActiveInfo> selectActiveInfoList(ActiveInfo info);
+}

@@ -21,7 +21,7 @@ import com.smart.common.utils.html.EscapeUtil;
 
 /**
  * 全局异常处理器
- *
+ * 
  * @author smart
  */
 @RestControllerAdvice

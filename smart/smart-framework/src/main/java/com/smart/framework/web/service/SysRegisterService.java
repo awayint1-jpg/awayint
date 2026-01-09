@@ -79,6 +79,11 @@ public class SysRegisterService
             sysUser.setNickName(username);
             sysUser.setPwdUpdateDate(DateUtils.getNowDate());
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
+            // 写死注册角色为社区居民
+            Long[] roleIds = new Long[]{
+                    getResidentsRoleId()
+            };
+            sysUser.setRoleIds(roleIds);
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag)
             {
@@ -91,6 +96,30 @@ public class SysRegisterService
         }
         return msg;
     }
+
+    /**
+     * 获取社区居民角色ID
+     */
+    private Long getResidentsRoleId()
+    {
+        // 查询社区居民角色ID
+        try {
+            com.smart.common.core.domain.entity.SysRole queryRole = new com.smart.common.core.domain.entity.SysRole();
+            queryRole.setRoleKey("residents");
+            java.util.List<com.smart.common.core.domain.entity.SysRole> roles = roleService.selectRoleListCode(queryRole);
+            if (roles != null && !roles.isEmpty()) {
+                return roles.get(0).getRoleId();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 忽略异常
+        }
+        // 如果查询失败，返回null，让注册失败
+        return null;
+    }
+
+    @Autowired
+    private com.smart.system.service.ISysRoleService roleService;
 
     /**
      * 校验验证码

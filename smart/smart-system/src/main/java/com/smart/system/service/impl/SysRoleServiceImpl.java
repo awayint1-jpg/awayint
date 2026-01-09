@@ -58,6 +58,12 @@ public class SysRoleServiceImpl implements ISysRoleService
         return roleMapper.selectRoleList(role);
     }
 
+    @Override
+    public List<SysRole> selectRoleListCode(SysRole role)
+    {
+        return roleMapper.selectRoleList(role);
+    }
+
     /**
      * 根据用户ID查询角色
      * 

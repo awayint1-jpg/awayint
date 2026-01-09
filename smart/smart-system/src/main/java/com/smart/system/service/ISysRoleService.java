@@ -20,6 +20,8 @@ public interface ISysRoleService
      */
     public List<SysRole> selectRoleList(SysRole role);
 
+    List<SysRole> selectRoleListCode(SysRole role);
+
     /**
      * 根据用户ID查询角色列表
      * 
